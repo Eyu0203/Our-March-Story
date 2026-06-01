@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eyu & Kal — Our Love Story</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #c97d8a;
+    --rose-light: #f2e4e7;
+    --rose-deep: #8b3a4a;
+    --gold: #c9a84c;
+    --gold-light: #f5ecd6;
+    --cream: #fdf8f2;
+    --warm: #f7f0e8;
+    --text: #2c1f24;
+    --text-soft: #6b4d56;
+    --text-muted: #a08090;
+    --white: #ffffff;
+    --shadow: rgba(44,31,36,0.10);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--text); overflow-x:hidden; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width:5px; }
+  ::-webkit-scrollbar-track { background:var(--cream); }
+  ::-webkit-scrollbar-thumb { background:var(--rose); border-radius:10px; }
+
+  /* ── AUTH PORTAL OVERLAY ── */
+  #auth-overlay {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 30%, #f2e4e7 0%, #fdf8f2 70%);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .auth-container {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 40px var(--shadow);
+    border: 1px solid rgba(201,125,138,0.2);
+    text-align: center;
+  }
+  .auth-container h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    color: var(--rose-deep);
+    margin-bottom: 0.5rem;
+  }
+  .auth-container p {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    margin-bottom: 2rem;
+    letter-spacing: 0.02em;
+  }
+  .auth-form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.2rem;
+    text-align: left;
+  }
+  .auth-form-row label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .auth-form-row input {
+    background: var(--warm);
+    border: 1px solid rgba(201,125,138,0.25);
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .auth-form-row input:focus { border-color: var(--rose); }
+  
+  .auth-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .auth-divider::before, .auth-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgba(201,125,138,0.2);
+  }
+  .auth-divider:not(:empty)::before { margin-right: .5em; }
+  .auth-divider:not(:empty)::after { margin-left: .5em; }
+
+  .google-btn {
+    width: 100%;
+    background: var(--white);
+    color: var(--text-soft);
+    border: 1px solid rgba(201,125,138,0.3);
+    border-radius: 50px;
+    padding: 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .google-btn:hover {
+    background: var(--warm);
+    box-shadow: 0 4px 12px var(--shadow);
+  }
+  .google-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* ── PROTECTED MAIN CONTENT APP CONTAINER ── */
+  #main-protected-content {
+    display: none;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position:fixed; top:0; left:0; width:100%; z-index:1000;
+    background:rgba(253,248,242,0.88); backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(201,125,138,0.15);
+    padding:0 5%;
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .logo { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600; color:var(--rose-deep); letter-spacing:0.03em; }
+  .logo span { color:var(--gold); }
+  nav { display:flex; gap:2rem; list-style:none; }
+  nav a { font-size:0.82rem; font-weight:400; color:var(--text-soft); text-decoration:none; letter-spacing:0.06em; text-transform:uppercase; transition:color 0.2s; }
+  nav a:hover { color:var(--rose-deep); }
+  .nav-heart { color:var(--rose); font-size:1rem; }
+
+  /* ── HERO ── */
+  #home {
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:80px 5% 60px;
+    background: radial-gradient(ellipse 80% 60% at 50% 30%, #f2e4e7 0%, #fdf8f2 70%);
+    position:relative; overflow:hidden;
+  }
+  .hero-bg-petals { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+  .petal { position:absolute; opacity:0.18; animation:floatPetal linear infinite; }
+  @keyframes floatPetal {
+    0%  { transform: translateY(110vh) rotate(0deg); opacity:0.18; }
+    100%{ transform: translateY(-10vh) rotate(360deg); opacity:0; }
+  }
+  .hero-subtitle { font-family:'DM Sans',sans-serif; font-size:0.78rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--rose); margin-bottom:1.2rem; }
+  .hero-title { font-family:'Cormorant Garamond',serif; font-size:clamp(3.5rem,9vw,7rem); font-weight:300; line-height:1.05; color:var(--text); margin-bottom:0.6rem; }
+  .hero-title em { color:var(--rose-deep); font-style:italic; }
+  .hero-date { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.1rem; color:var(--text-muted); margin-bottom:2.5rem; }
+  .counter-ring {
+    display:flex; gap:2.5rem; flex-wrap:wrap; justify-content:center; margin-bottom:3rem;
+  }
+  .c-unit { display:flex; flex-direction:column; align-items:center; }
+  .c-num {
+    font-family:'Cormorant Garamond',serif; font-size:3.2rem; font-weight:600;
+    color:var(--rose-deep); line-height:1;
+    background:var(--white); border:1px solid rgba(201,125,138,0.3);
+    border-radius:14px; padding:0.4rem 1.1rem; min-width:80px; text-align:center;
+    box-shadow:0 4px 18px var(--shadow);
+  }
+  .c-label { font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-muted); margin-top:6px; }
+  .btn-rose {
+    background:var(--rose-deep); color:#fff; border:none; border-radius:50px;
+    padding:0.85rem 2.4rem; font-family:'DM Sans',sans-serif; font-size:0.85rem;
+    letter-spacing:0.08em; cursor:pointer; text-decoration:none;
+    transition:background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow:0 4px 20px rgba(139,58,74,0.28);
+    display:inline-block;
+  }
+  .btn-rose:hover { background:#6e2c39; transform:translateY(-2px); box-shadow:0 8px 28px rgba(139,58,74,0.34); }
+
+  /* ── SECTION BASE ── */
+  section { padding:96px 8%; }
+  .section-label { font-size:0.72rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--rose); margin-bottom:0.7rem; }
+  .section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,3rem); font-weight:300; color:var(--text); margin-bottom:1rem; line-height:1.15; }
+  .section-title em { color:var(--rose-deep); font-style:italic; }
+  .divider { width:48px; height:2px; background:linear-gradient(90deg,var(--rose),var(--gold)); border-radius:2px; margin-bottom:2.5rem; }
+
+  /* ── ABOUT ── */
+  #about { background:var(--white); }
+  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; }
+  .about-text p { font-size:1.05rem; color:var(--text-soft); line-height:1.85; margin-bottom:1.2rem; }
+  .about-cards { display:flex; flex-direction:column; gap:1.2rem; }
+  .about-card {
+    background:var(--warm); border-radius:18px; padding:1.5rem;
+    border-left:3px solid var(--rose); transition:transform 0.2s;
+  }
+  .about-card:hover { transform:translateX(6px); }
+  .about-card h4 { font-family:'Cormorant Garamond',serif; font-size:1.25rem; color:var(--rose-deep); margin-bottom:0.4rem; }
+  .about-card p { font-size:0.9rem; color:var(--text-soft); line-height:1.65; }
+
+  /* ── GALLERY ── */
+  #gallery { background:var(--cream); }
+  .gallery-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; }
+  .gallery-item {
+    border-radius:16px; overflow:hidden; position:relative; cursor:pointer;
+    background: var(--rose-light);
+    aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+    transition:transform 0.3s, box-shadow 0.3s;
+  }
+  .gallery-item:hover { transform:scale(1.03); box-shadow:0 12px 36px var(--shadow); z-index:2; }
+  .gallery-item:nth-child(2) { aspect-ratio:1/1.3; }
+  .gallery-item:nth-child(5) { grid-column:span 2; aspect-ratio:2/1; }
+  .gallery-placeholder { text-align:center; color:var(--rose); }
+  .gallery-placeholder .icon { font-size:2.2rem; display:block; margin-bottom:0.5rem; }
+  .gallery-placeholder p { font-size:0.78rem; color:var(--text-muted); }
+  .upload-overlay {
+    position:absolute; inset:0; background:rgba(139,58,74,0.7);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    opacity:0; transition:opacity 0.2s; color:#fff; gap:0.4rem;
+    font-size:0.8rem; letter-spacing:0.05em; border-radius:16px;
+  }
+  .gallery-item:hover .upload-overlay { opacity:1; }
+  .gallery-item input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; }
+  .gallery-item img { width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* ── VLOGS ── */
+  #vlogs { background:var(--white); }
+  .vlogs-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.5rem; }
+  .vlog-card {
+    background:var(--warm); border-radius:20px; overflow:hidden;
+    border:1px solid rgba(201,125,138,0.15);
+    transition:transform 0.25s, box-shadow 0.25s;
+  }
+  .vlog-card:hover { transform:translateY(-6px); box-shadow:0 16px 44px var(--shadow); }
+  .vlog-thumb {
+    height:155px; background:linear-gradient(135deg, var(--rose-light), var(--gold-light));
+    display:flex; align-items:center; justify-content:center; position:relative; cursor:pointer;
+  }
+  .play-btn {
+    width:52px; height:52px; background:var(--rose-deep); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.3rem;
+    box-shadow:0 4px 18px rgba(139,58,74,0.38); transition:transform 0.2s;
+  }
+  .vlog-thumb:hover .play-btn { transform:scale(1.12); }
+  .vlog-info { padding:1.1rem 1.2rem 1.3rem; }
+  .vlog-date { font-size:0.72rem; color:var(--text-muted); letter-spacing:0.06em; margin-bottom:0.3rem; }
+  .vlog-title { font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:var(--text); margin-bottom:0.4rem; }
+  .vlog-desc { font-size:0.83rem; color:var(--text-soft); line-height:1.6; }
+
+  /* ── CALENDAR ── */
+  #calendar { background:var(--cream); }
+  .anniversary-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.2rem; }
+  .ann-item {
+    background:var(--white); border-radius:18px; padding:1.5rem;
+    border:1px solid rgba(201,125,138,0.18); position:relative; overflow:hidden;
+    transition:box-shadow 0.25s;
+  }
+  .ann-item.monthly-milestone::before {
+    background: linear-gradient(to bottom, var(--gold), var(--rose));
+  }
+  .ann-item::before {
+    content:''; position:absolute; top:0; left:0; width:4px; height:100%;
+    background:linear-gradient(to bottom, var(--rose), var(--gold));
+  }
+  .ann-item:hover { box-shadow:0 8px 28px var(--shadow); }
+  .ann-day { font-family:'Cormorant Garamond',serif; font-size:2.8rem; font-weight:600; color:var(--rose); line-height:1; }
+  .ann-month { font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.5rem; }
+  .ann-name { font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:var(--text); margin-bottom:0.3rem; }
+  .ann-remaining { font-size:0.8rem; color:var(--rose); font-weight:500; }
+
+  /* ── MUSIC ── */
+  #music { background:var(--white); }
+  .music-list { display:flex; flex-direction:column; gap:0.9rem; max-width:680px; }
+  .music-item {
+    display:flex; align-items:center; gap:1.1rem;
+    background:var(--warm); border-radius:14px; padding:0.9rem 1.2rem;
+    border:1px solid rgba(201,125,138,0.12); cursor:pointer;
+    transition:background 0.2s, transform 0.15s;
+  }
+  .music-item:hover { background:var(--rose-light); transform:translateX(5px); }
+  .music-item.playing { background:var(--rose-light); border-color:var(--rose); }
+  .music-num { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; color:var(--rose); min-width:30px; text-align:center; }
+  .music-info { flex:1; }
+  .music-title { font-weight:500; font-size:0.92rem; color:var(--text); }
+  .music-artist { font-size:0.78rem; color:var(--text-muted); margin-top:2px; }
+  .music-heart { color:var(--rose); font-size:1rem; transition:transform 0.2s; }
+  .music-item:hover .music-heart { transform:scale(1.3); }
+  .music-play-icon { font-size:1.1rem; color:var(--rose-deep); }
+
+  /* ── MOMENTS ── */
+  #moments { background:var(--cream); }
+  .moments-tabs { display:flex; gap:1rem; margin-bottom:2rem; }
+  .tab-btn {
+    padding:0.6rem 1.5rem; border-radius:50px; border:1px solid rgba(201,125,138,0.3);
+    background:transparent; font-family:'DM Sans',sans-serif; font-size:0.83rem;
+    letter-spacing:0.05em; cursor:pointer; transition:all 0.2s; color:var(--text-soft);
+  }
+  .tab-btn.active { background:var(--rose-deep); color:#fff; border-color:var(--rose-deep); }
+  .tab-btn.bad-tab.active { background:#5a7a6e; border-color:#5a7a6e; }
+  .moments-panel { display:none; }
+  .moments-panel.active { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:1.2rem; }
+  .moment-card {
+    background:var(--white); border-radius:18px; padding:1.5rem;
+    border:1px solid rgba(201,125,138,0.15);
+    transition:transform 0.2s, box-shadow 0.2s;
+  }
+  .moment-card:hover { transform:translateY(-4px); box-shadow:0 10px 30px var(--shadow); }
+  .moment-card.bad { border-left:3px solid #8fa89e; }
+  .moment-card.happy { border-left:3px solid var(--rose); }
+  .moment-emoji { font-size:2rem; margin-bottom:0.7rem; }
+  .moment-title { font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:var(--text); margin-bottom:0.3rem; }
+  .moment-date { font-size:0.72rem; color:var(--text-muted); margin-bottom:0.6rem; letter-spacing:0.05em; }
+  .moment-text { font-size:0.88rem; color:var(--text-soft); line-height:1.7; }
+  /* Add moment form */
+  .add-moment-form {
+    background:var(--white); border-radius:18px; padding:1.8rem;
+    border:1px dashed rgba(201,125,138,0.4); margin-top:1.5rem; max-width:480px;
+  }
+  .add-moment-form h4 { font-family:'Cormorant Garamond',serif; font-size:1.3rem; margin-bottom:1rem; color:var(--text); }
+  .form-row { display:flex; flex-direction:column; gap:0.5rem; margin-bottom:1rem; }
+  .form-row label { font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-muted); }
+  .form-row input, .form-row textarea, .form-row select {
+    background:var(--warm); border:1px solid rgba(201,125,138,0.25); border-radius:10px;
+    padding:0.7rem 1rem; font-family:'DM Sans',sans-serif; font-size:0.9rem;
+    color:var(--text); outline:none; transition:border-color 0.2s;
+    resize:vertical;
+  }
+  .form-row input:focus, .form-row textarea:focus, .form-row select:focus { border-color:var(--rose); }
+
+  /* ── CONTACT ── */
+  #contact { background:var(--white); }
+  .contact-wrap { display:grid; grid-template-columns:1fr 1.2fr; gap:5rem; align-items:start; }
+  .contact-left p { font-size:1.05rem; color:var(--text-soft); line-height:1.85; margin-bottom:1.5rem; }
+  .contact-info { display:flex; flex-direction:column; gap:0.9rem; }
+  .contact-info-item { display:flex; align-items:center; gap:0.9rem; font-size:0.92rem; color:var(--text-soft); }
+  .info-icon { width:38px; height:38px; background:var(--rose-light); border-radius:10px; display:flex; align-items:center; justify-content:center; color:var(--rose-deep); flex-shrink:0; }
+  .contact-form { background:var(--warm); border-radius:22px; padding:2.2rem; }
+  .contact-form .form-row input, .contact-form .form-row textarea { background:var(--white); }
+  .submit-btn {
+    width:100%; padding:0.95rem; background:var(--rose-deep); color:#fff; border:none;
+    border-radius:12px; font-family:'DM Sans',sans-serif; font-size:0.9rem; cursor:pointer;
+    letter-spacing:0.06em; transition:background 0.2s, transform 0.15s;
+  }
+  .submit-btn:hover { background:#6e2c39; transform:translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background:var(--text); color:rgba(255,255,255,0.5); text-align:center;
+    padding:2.5rem 5%; font-size:0.82rem; letter-spacing:0.04em;
+  }
+  footer .footer-logo { font-family:'Cormorant Garamond',serif; font-size:1.5rem; color:var(--rose-light); margin-bottom:0.5rem; font-weight:300; }
+  footer .footer-heart { color:var(--rose); }
+  footer p { margin-top:0.4rem; }
+
+  /* ── NOTIFICATION ── */
+  .toast {
+    position:fixed; bottom:2rem; right:2rem; background:var(--rose-deep); color:#fff;
+    border-radius:14px; padding:1rem 1.5rem; font-size:0.88rem; z-index:99999;
+    opacity:0; transform:translateY(20px); transition:all 0.3s;
+    box-shadow:0 6px 24px rgba(139,58,74,0.4); max-width:280px;
+  }
+  .toast.show { opacity:1; transform:translateY(0); }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display:none; position:fixed; inset:0; background:rgba(44,31,36,0.7);
+    z-index:5000; align-items:center; justify-content:center;
+    backdrop-filter:blur(6px);
+  }
+  .modal-overlay.open { display:flex; }
+  .modal-box {
+    background:var(--white); border-radius:24px; padding:2rem; max-width:480px;
+    width:90%; text-align:center; position:relative;
+  }
+  .modal-box h3 { font-family:'Cormorant Garamond',serif; font-size:1.8rem; margin-bottom:0.5rem; color:var(--rose-deep); }
+  .modal-box p { color:var(--text-soft); font-size:0.92rem; margin-bottom:1.5rem; }
+  .modal-close { position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.3rem; cursor:pointer; color:var(--text-muted); }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:860px){
+    .about-grid, .contact-wrap { grid-template-columns:1fr; gap:2.5rem; }
+    .gallery-grid { grid-template-columns:repeat(2,1fr); }
+    .gallery-item:nth-child(5){ grid-column:span 1; aspect-ratio:1; }
+    nav { gap:1.2rem; }
+  }
+  @media(max-width:540px){
+    nav { display:none; }
+    .gallery-grid { grid-template-columns:1fr 1fr; }
+    section { padding:70px 5%; }
+  }
+</style>
+</head>
+<body>
+
+<div id="auth-overlay">
+  <div class="auth-container">
+    <h2>Welcome Back ❤️</h2>
+    <p>Please log in to access Eyu & Kal's private space.</p>
+    
+    <form id="loginForm" onsubmit="handleEmailLogin(event)">
+      <div class="auth-form-row">
+        <label for="auth-email">Email Address</label>
+        <input type="email" id="auth-email" required placeholder="you@example.com">
+      </div>
+      <div class="auth-form-row">
+        <label for="auth-password">Password</label>
+        <input type="password" id="auth-password" required placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn-rose" style="width: 100%; margin-top: 0.5rem;">Log In</button>
+    </form>
+
+    <div class="auth-divider">OR</div>
+
+    <button class="google-btn" onclick="handleGoogleLogin()">
+      <svg class="google-icon" viewBox="0 0 24 24">
+        <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.866-3.577-7.866-8s3.536-8 7.866-8c2.46 0 4.105 1.025 5.047 1.926l3.227-3.227C18.416 1.414 15.56 0 12.24 0 5.48 0 0 5.48 0 12.24s5.48 12.24 12.24 12.24c7.056 0 11.75-4.945 11.75-11.933 0-.806-.086-1.423-.193-1.762H12.24z"/>
+      </svg>
+      Continue with Google
+    </button>
+  </div>
+</div>
+
+<div id="main-protected-content">
+  <header>
+    <div class="logo">Eyu <span>&</span> Kal</div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">Us</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#vlogs">Vlogs</a>
+      <a href="#calendar">Dates</a>
+      <a href="#music">Music</a>
+      <a href="#moments">Moments</a>
+      <a href="#contact">Space</a>
+    </nav>
+  </header>
+
+  <section id="home">
+    <div class="hero-bg-petals" id="petals"></div>
+    <p class="hero-subtitle">Our Love Story</p>
+    <h1 class="hero-title">Eyu <em>&amp;</em> Kal</h1>
+    <p class="hero-date" id="since-text">Together since March 2, 2024</p>
+
+    <div class="counter-ring">
+      <div class="c-unit"><div class="c-num" id="cnt-years">0</div><div class="c-label">Years</div></div>
+      <div class="c-unit"><div class="c-num" id="cnt-months">0</div><div class="c-label">Months</div></div>
+      <div class="c-unit"><div class="c-num" id="cnt-days">0</div><div class="c-label">Days</div></div>
+      <div class="c-unit"><div class="c-num" id="cnt-hours">0</div><div class="c-label">Hours</div></div>
+      <div class="c-unit"><div class="c-num" id="cnt-mins">0</div><div class="c-label">Minutes</div></div>
+    </div>
+    <a href="#about" class="btn-rose">Explore Our Story</a>
+  </section>
+
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="section-label">Who We Are</p>
+        <h2 class="section-title">Written in the <em>stars</em></h2>
+        <div class="divider"></div>
+        <p>Eyu and Kal are two people whose story began on March 2, 2024, during their school life, at a time when neither of them expected that something simple would grow into something so meaningful. What started as a normal connection slowly turned into a bond that became part of their everyday life, shaping how they see each other, themselves, and the world around them.
+
+At first, it was just moments—small conversations, shared looks, and time spent together without realizing how important those moments would become later. But as time passed, those small moments started to build something stronger. They began to enjoy each other’s presence more deeply, finding comfort in talking, laughing, and simply being together even in silence. It was never forced; it naturally grew into something real.
+
+As their journey continued, they created many memories that now form the heart of their story. Their first date, first walk together, first kiss, church visits, hotel date, Valentine’s Day celebrations, anniversaries, and countless other moments became milestones they both remember. Even outside of special occasions, they shared everyday experiences that mattered just as much—going out, eating together, taking photos, spending time playing games, and enjoying each other’s company in simple ways that felt special because they were together.
+
+They also shared fun and unforgettable activities like playing PS5, going go-karting, playing table tennis, eating pizza, giving flowers, and capturing photos that hold memories of their time together. These moments were not just activities; they were experiences that strengthened their connection and created a sense of togetherness that words alone cannot fully describe.
+
+However, their story is not only made of happy moments. Like every real relationship, they also faced misunderstandings, emotional challenges, and times where things felt difficult. Being students and navigating school life together brought its own pressure and distractions, and sometimes outside situations made things more complicated. But instead of allowing those moments to separate them, they used them as lessons. They learned how to listen better, understand each other more deeply, communicate more honestly, and grow with patience.
+
+What makes Eyu and Kal’s relationship unique is not perfection, but persistence. It is the choice to stay connected even when things are not easy, to fix instead of walk away, and to keep building something meaningful despite challenges. Their connection is not based only on the good days, but also on how they handle the difficult ones together.
+
+Through all of this, they have grown not only as a couple but also as individuals. They have learned about trust, emotional understanding, care, and the importance of choosing each other again and again. Every memory they share—whether big or small—has added another layer to their story.
+
+Today, Eyu and Kal’s journey is still ongoing. It is not finished, not perfect, and not predictable—but it is real. It continues to grow with every day they spend together, every conversation they have, and every memory they create. Their story is built on love, effort, shared experiences, and the hope of continuing to write something beautiful together in the future.
+</p>
+      </div>
+      <div class="about-cards">
+        <div class="about-card">
+          <h4>✦ Eyu</h4>
+          <p>Eyu is caring, loyal, and deeply committed to the people he loves. He values memories and meaningful moments, especially those shared with Kal. He enjoys building things, learning technology, and working on creative projects. Whether it's celebrating anniversaries, saving photos, or creating a special app to preserve memories, Eyu puts his heart into the things that matter to him.
+</p>
+        </div>
+        <div class="about-card">
+          <h4>✦ Kal</h4>
+          <p>Kal is someone very special to Eyu and an important part of his life. She is beautiful, and Eyu affectionately calls her his "Babe." She has shared many meaningful memories with him, including anniversaries, dates, celebrations, and everyday moments that have become part of their story. Kal is someone Eyu cares about deeply and continues to choose every day as they grow together.
+</p>
+        </div>
+        <div class="about-card">
+          <h4>✦ Together</h4>
+          <p>Eyu and Kal's story began on March 2, 2024, during their school years, a time that became much more meaningful because they had each other. What started as a connection grew into a relationship filled with memories, lessons, laughter, and experiences that helped shape who they are today.
+
+Together, they shared important milestones such as their first date, first walk together, first kiss, church visits, special celebrations, anniversaries, hotel date, Valentine's Day memories, and fun days spent playing PS5, go-karting, table tennis, eating pizza, and taking photos together. Each memory became another chapter in a story they continue to build.
+
+Their relationship has never been only about big events. It is also about the everyday moments—seeing each other, talking, supporting one another, sharing worries, celebrating achievements, and being there during difficult times. Through misunderstandings, challenges, and emotional moments, they learned more about trust, patience, communication, and commitment.
+
+As students growing through an important stage of life, they have created memories that they hope to remember for years to come. From ordinary school days to unforgettable adventures, every moment has contributed to a story that is uniquely theirs. Their journey is built on love, loyalty, effort, and the decision to continue choosing each other every day.
+</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+  <p class="section-label">Our Photos</p>
+  <h2 class="section-title">A gallery of <em>us</em></h2>
+  <div class="divider"></div>
+
+  <!-- 3 preview pictures -->
+  <div class="gallery-grid">
+    
+    <div class="gallery-item">
+      <img src="pic1.jpg" alt="Us photo 1">
+    </div>
+
+    <div class="gallery-item">
+      <img src="pic2.jpg" alt="Us photo 2">
+    </div>
+
+    <div class="gallery-item">
+      <img src="pic3.jpg" alt="Us photo 3">
+    </div>
+
+  </div>
+
+  <!-- link under gallery -->
+  <div style="text-align:center; margin-top:20px;">
+    <a href="https://photos.app.goo.gl/tfxNaPkRjhX2Mn7Q6" target="_blank" class="btn-rose">
+      Open Full Photo Album 📸
+    </a>
+  </div>
+</section>
+<section id="vlogs">
+  <p class="section-label">Mini Vlogs</p>
+  <h2 class="section-title">Little <em>films</em> of life</h2>
+  <div class="divider"></div>
+
+  <div class="vlogs-grid">
+
+    <!-- Vlog 1 -->
+    <div class="vlog-card">
+      <div class="vlog-thumb">
+        <video controls width="100%" height="100%">
+          <source src="vlog1.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="vlog-info">
+        <div class="vlog-date">Your Date</div>
+        <div class="vlog-title">Only us!</div>
+        <div class="vlog-desc">A special memory 🎬</div>
+      </div>
+    </div>
+
+    <!-- Vlog 2 -->
+    <div class="vlog-card">
+      <div class="vlog-thumb">
+        <video controls width="100%" height="100%">
+          <source src="vlog2.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="vlog-info">
+        <div class="vlog-date">Your Date</div>
+        <div class="vlog-title">Anniversary</div>
+        <div class="vlog-desc">Another memory ❤️</div>
+      </div>
+    </div>
+
+    <!-- Vlog 3 -->
+    <div class="vlog-card">
+      <div class="vlog-thumb">
+        <video controls width="100%" height="100%">
+          <source src="vlog3.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="vlog-info">
+        <div class="vlog-date">Your Date</div>
+        <div class="vlog-title">Racing with Kak</div>
+        <div class="vlog-desc">Fun moment 🏁</div>
+      </div>
+    </div>
+<!-- link under gallery -->
+  <div style="text-align:center; margin-top:20px;">
+    <a href="https://photos.app.goo.gl/tfxNaPkRjhX2Mn7Q6" target="_blank" class="btn-rose">
+      Open Full Photo Album 📸
+    </a>
+  </div>
+  </div>
+</section>
+  <section id="calendar">
+    <p class="section-label">Anniversary & Special Dates</p>
+    <h2 class="section-title">Days to <em>remember</em></h2>
+    <div class="divider"></div>
+    <div class="anniversary-list" id="annList"></div>
+  </section>
+
+  <section id="music">
+    <p class="section-label">Our Soundtrack</p>
+    <h2 class="section-title">Songs that are <em>ours</em></h2>
+    <div class="divider"></div>
+    <div class="music-list" id="musicList"></div>
+  </section>
+
+  <section id="moments">
+    <p class="section-label">Memory Keeper</p>
+    <h2 class="section-title">Every part of our <em>journey</em></h2>
+    <div class="divider"></div>
+    <div class="moments-tabs">
+      <button class="tab-btn active" onclick="switchTab('happy',this)">✦ Happy Moments</button>
+      <button class="tab-btn bad-tab" onclick="switchTab('bad',this)">⟡ Hard Days</button>
+    </div>
+    <div class="moments-panel active" id="tab-happy"></div>
+    <div class="moments-panel" id="tab-bad"></div>
+    <div class="add-moment-form">
+      <h4>+ Add a Memory</h4>
+      <div class="form-row">
+        <label>Title</label>
+        <input type="text" id="m-title" placeholder="Name this memory...">
+      </div>
+      <div class="form-row">
+        <label>Type</label>
+        <select id="m-type"><option value="happy">Happy Moment</option><option value="bad">Hard Day</option></select>
+      </div>
+      <div class="form-row">
+        <label>Date</label>
+        <input type="date" id="m-date">
+      </div>
+      <div class="form-row">
+        <label>What happened?</label>
+        <textarea id="m-text" rows="3" placeholder="Write about it..."></textarea>
+      </div>
+      <button class="btn-rose" style="width:100%;text-align:center;" onclick="addMoment()">Save Memory</button>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-wrap">
+      <div class="contact-left">
+        <p class="section-label">Our Space</p>
+        <h2 class="section-title">Leave a <em>note</em></h2>
+        <div class="divider"></div>
+        <p>This is our little space to leave each other messages, thoughts, or anything you want the other to read. Because sometimes words feel different when they're written down.</p>
+        <div class="contact-info">
+          <div class="contact-info-item"><div class="info-icon">♡</div><span>Just for us — no one else reads this.</span></div>
+          <div class="contact-info-item"><div class="info-icon">✦</div><span>Write anything — big or small.</span></div>
+          <div class="contact-info-item"><div class="info-icon">❋</div><span>Every word is saved in our story.</span></div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div class="form-row">
+          <label>From</label>
+          <input type="text" id="cf-from" placeholder="Eyu or Kal...">
+        </div>
+        <div class="form-row">
+          <label>Subject</label>
+          <input type="text" id="cf-subject" placeholder="What's on your mind?">
+        </div>
+        <div class="form-row">
+          <label>Message</label>
+          <textarea id="cf-message" rows="5" placeholder="Write your heart out..."></textarea>
+        </div>
+        <button class="submit-btn" onclick="sendNote()">Send Note ♡</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Eyu & Kal</div>
+    <p>Built with <span class="footer-heart">♥</span> to keep your love story alive — always.</p>
+    <p style="margin-top:0.5rem;font-size:0.72rem;">Private · Yours · Forever</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3 id="modal-title">Note Sent!</h3>
+    <p id="modal-body">Your message has been saved to your love story.</p>
+    <button class="btn-rose" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<script>
+// ── RELATIONSHIP CONFIGURATION ──
+const START = new Date('2024-03-02T00:00:00'); // Updated Start Date: March 2, 2024
+
+function initializeAppSpace() {
+  const overlay = document.getElementById('auth-overlay');
+  const mainContent = document.getElementById('main-protected-content');
+  
+  overlay.style.opacity = '0';
+  overlay.style.transform = 'scale(0.95)';
+  
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    mainContent.style.display = 'block';
+    
+    updateCounter();
+    setInterval(updateCounter, 30000);
+    renderGallery();
+    initPetals();
+    renderAnniversaries();
+    renderTracklist();
+    renderMoments();
+    initScrollFade();
+    checkMonthlyAnniversaryMilestone();
+  }, 500);
+}
+
+function handleEmailLogin(event) {
+  event.preventDefault();
+  initializeAppSpace();
+}
+
+function handleGoogleLogin() {
+  showToast('Connecting securely with Google...');
+  setTimeout(() => { initializeAppSpace(); }, 1000);
+}
+
+// ── LOVE CLOCK COUNTER ──
+function updateCounter(){
+  const now = new Date();
+  const diff = now - START;
+  const totalSecs = Math.floor(diff/1000);
+  const mins  = Math.floor(totalSecs/60);
+  const hours = Math.floor(mins/60);
+  const days  = Math.floor(hours/24);
+  
+  // Custom precise month/year timeline logic starting from March 2, 2024
+  let years = now.getFullYear() - START.getFullYear();
+  let months = now.getMonth() - START.getMonth();
+  let currentMonthDay = now.getDate();
+  
+  if (months < 0 || (months === 0 && currentMonthDay < START.getDate())) {
+    years--;
+    months += 12;
+  }
+  
+  let tempMonths = (now.getFullYear() - START.getFullYear()) * 12 + (now.getMonth() - START.getMonth());
+  if (currentMonthDay < START.getDate()) {
+    tempMonths--;
+  }
+  
+  months = tempMonths % 12;
+  
+  // Day remainder tracking
+  let lastAnnMonth = new Date(START.getFullYear(), START.getMonth() + tempMonths, START.getDate());
+  let dayDiff = Math.floor((now - lastAnnMonth) / (1000 * 60 * 60 * 24));
+
+  document.getElementById('cnt-years').textContent  = years;
+  document.getElementById('cnt-months').textContent = months;
+  document.getElementById('cnt-days').textContent   = dayDiff;
+  document.getElementById('cnt-hours').textContent  = hours % 24;
+  document.getElementById('cnt-mins').textContent   = mins % 60;
+  
+  document.getElementById('since-text').textContent =
+    'Together since ' + START.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+}
+
+// ── REMINDER NOTIFICATIONS FOR MILESTONES ──
+function checkMonthlyAnniversaryMilestone() {
+  const now = new Date();
+  if (now.getDate() === 2) {
+    let monthsTotal = (now.getFullYear() - START.getFullYear()) * 12 + (now.getMonth() - START.getMonth());
+    setTimeout(() => {
+      showToast(`🎉 Happy ${monthsTotal} Months Anniversary, Eyu & Kal! ❤️`);
+    }, 2500);
+  }
+}
+
+// ── SPECIAL DATES & MONTHLY AUTOMATIC REMINDER SYSTEM ──
+const specials = [
+  {month:3, day:2, name:'Started Dating ❤️', emoji:'💞'},
+  {year:2024, month:5, day:17, name:'First Date 🌹', emoji:'🌹'},
+  {month:2, day:14, name:"Valentine's Day ❤️", emoji:'🌹'},
+  {month:2, day:14, name:"Eyu's Birthday 🎂", emoji:'🎂'},
+  {month:2, day:13, name:"Kal's Birthday 🎂", emoji:'🎂'},
+  {year:2024, month:5, day:30, name:'Hotel Date 🏨', emoji:'🏨'},
+  {year:2024, month:5, day:24, name:'First Kiss 💋', emoji:'💋'}
+];
+function daysUntil(month,day){
+  const now=new Date(); const next=new Date(now.getFullYear(),month-1,day);
+  if(next<now) next.setFullYear(next.getFullYear()+1);
+  return Math.ceil((next-now)/(1000*60*60*24));
+}
+
+function getNextMonthlyAnniversary() {
+  const now = new Date();
+  let targetYear = now.getFullYear();
+  let targetMonth = now.getMonth(); // Current month index
+  
+  // If we already passed the 2nd this month, look at next month
+  if (now.getDate() >= 2) {
+    targetMonth++;
+    if (targetMonth > 11) {
+      targetMonth = 0;
+      targetYear++;
+    }
+  }
+  
+  const nextMonthly = new Date(targetYear, targetMonth, 2);
+  const diffTime = nextMonthly - now;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  
+  return {
+    date: nextMonthly,
+    daysLeft: diffDays,
+    monthName: nextMonthly.toLocaleDateString('en-US', { month: 'Short' })
+  };
+}
+
+function renderAnniversaries() {
+  const monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const al=document.getElementById('annList');
+  al.innerHTML = '';
+  
+  // 1. Dynamic Injection of the Monthiversary tracking block
+  const monthlyInfo = getNextMonthlyAnniversary();
+  const mDiv = document.createElement('div');
+  mDiv.className = 'ann-item monthly-milestone';
+  mDiv.style.borderLeft = '3px solid var(--gold)';
+  
+  let countTotalMonths = (monthlyInfo.date.getFullYear() - START.getFullYear()) * 12 + (monthlyInfo.date.getMonth() - START.getMonth());
+  
+  mDiv.innerHTML = `
+    <div class="ann-month">${monthlyInfo.monthName}</div>
+    <div class="ann-day">02 💖</div>
+    <div class="ann-name">${countTotalMonths} Months Together</div>
+    <div class="ann-remaining">${monthlyInfo.daysLeft === 0 || (new Date().getDate() === 2) ? 'Today is the Day! 🎉' : monthlyInfo.daysLeft + ' days away'}</div>`;
+  al.appendChild(mDiv);
+
+  // 2. Main Yearly Relationship Anniversary
+  const yearlyDiv = document.createElement('div');
+  yearlyDiv.className = 'ann-item';
+  const yDays = daysUntil(3, 2); // March 2
+  yearlyDiv.innerHTML = `
+    <div class="ann-month">Mar</div>
+    <div class="ann-day">02 👑</div>
+    <div class="ann-name">Our Big Anniversary</div>
+    <div class="ann-remaining">${yDays === 0 ? 'Today! 🎉' : yDays + ' days away'}</div>`;
+  al.appendChild(yearlyDiv);
+
+  // 3. Render rest of holidays/birthdays
+  specials.forEach(s=>{
+    const d=daysUntil(s.month,s.day);
+    const div=document.createElement('div'); div.className='ann-item';
+    div.innerHTML=`
+      <div class="ann-month">${monthNames[s.month-1]}</div>
+      <div class="ann-day">${String(s.day).padStart(2,'0')} ${s.emoji}</div>
+      <div class="ann-name">${s.name}</div>
+      <div class="ann-remaining">${d===0?'Today! 🎉':d+' days away'}</div>`;
+    al.appendChild(div);
+  });
+}
+
+// ── PHOTO MATRIX GENERATOR ──
+function renderGallery() {
+  const galleryLabels = [
+    ['🌅','First Sunrise','Add a photo'],
+    ['🌸','Our Walk','Add a photo'],
+    ['🕯️','Candlelit Evening','Add a photo'],
+    ['📸','Polaroid Moment','Add a photo'],
+    ['🌿','In the Garden','Add a photo'],
+    ['🌙','Night Drive','Add a photo'],
+  ];
+  const gg = document.getElementById('galleryGrid');
+  gg.innerHTML = '';
+  galleryLabels.forEach((l,i)=>{
+    const div=document.createElement('div');
+    div.className='gallery-item';
+    if(i===1) div.style.aspectRatio='1/1.3';
+    if(i===4){ div.style.gridColumn='span 2'; div.style.aspectRatio='2/1'; }
+    div.innerHTML=`
+      <div class="gallery-placeholder"><span class="icon">${l[0]}</span><p>${l[1]}</p></div>
+      <div class="upload-overlay">📷 Tap to add photo</div>
+      <input type="file" accept="image/*" onchange="loadImg(event,this.parentElement)" title="Upload photo">`;
+    gg.appendChild(div);
+  });
+}
+
+function loadImg(e,container){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    container.innerHTML=`<img src="${ev.target.result}" alt="Our photo">`;
+  };
+  reader.readAsDataURL(file);
+  showToast('Photo added! 📸');
+}
+
+// ── FLOATING ROSE PETALS ──
+function initPetals() {
+  const petalColors=['#f2e4e7','#f5ecd6','#e8d5de','#fce8dc'];
+  const petalsContainer = document.getElementById('petals');
+  petalsContainer.innerHTML = '';
+  for(let i=0;i<14;i++){
+    const p=document.createElement('div');
+    p.className='petal';
+    const sz=14+Math.random()*18;
+    p.style.cssText=`
+      left:${Math.random()*100}%;
+      width:${sz}px; height:${sz*1.4}px;
+      background:${petalColors[Math.floor(Math.random()*4)]};
+      border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation-duration:${10+Math.random()*14}s;
+      animation-delay:${-Math.random()*12}s;
+    `;
+    petalsContainer.appendChild(p);
+  }
+}
+
+// ── JUKEBOX PLAYLIST ──
+const songs=[
+  {title:'Perfect',artist:'Ed Sheeran',heart:true},
+  {title:'All of Me',artist:'John Legend',heart:true},
+  {title:'Lover',artist:'Taylor Swift',heart:false},
+  {title:'Thinking Out Loud',artist:'Ed Sheeran',heart:true},
+  {title:'A Thousand Years',artist:'Christina Perri',heart:false},
+  {title:'At Last',artist:'Etta James',heart:true},
+];
+function renderTracklist() {
+  const ml=document.getElementById('musicList');
+  ml.innerHTML = '';
+  songs.forEach((s,i)=>{
+    const div=document.createElement('div'); div.className='music-item';
+    div.innerHTML=`
+      <span class="music-num">${String(i+1).padStart(2,'0')}</span>
+      <div class="music-info"><div class="music-title">${s.title}</div><div class="music-artist">${s.artist}</div></div>
+      <span class="music-heart">${s.heart?'♥':'♡'}</span>
+      <span class="music-play-icon">▶</span>`;
+    div.onclick=()=>{
+      document.querySelectorAll('.music-item').forEach(m=>m.classList.remove('playing'));
+      div.classList.add('playing');
+      showToast(`Now playing: ${s.title} ♫`);
+    };
+    ml.appendChild(div);
+  });
+}
+
+// ── MEMORY LOGIC ──
+const happyMoments=[
+  {emoji:'🌅',title:'First road trip',date:'Add date',text:'The windows down, music up, nowhere specific to be. Just us and the open road.'},
+  {emoji:'🕯️',title:'Surprise dinner at home',date:'Add date',text:'He cooked everything himself. It was imperfect and absolutely perfect.'},
+  {emoji:'🌸',title:'The picnic in the park',date:'Add date',text:'We talked until the sun went down and forgot to eat half the food.'},
+];
+const badMoments=[
+  {emoji:'🌧️',title:'The long distance weeks',date:'Add date',text:'Hard. But every reunion made it worth every difficult day apart.'},
+  {emoji:'🪴',title:'Our first big argument',date:'Add date',text:'We learned that choosing each other means choosing to work through things, not around them.'},
+];
+function renderMoments(){
+  const hp=document.getElementById('tab-happy'); if(!hp) return;
+  const bp=document.getElementById('tab-bad');
+  hp.innerHTML=''; bp.innerHTML='';
+  happyMoments.forEach(m=>{
+    hp.innerHTML+=`<div class="moment-card happy"><div class="moment-emoji">${m.emoji}</div><div class="moment-title">${m.title}</div><div class="moment-date">${m.date}</div><div class="moment-text">${m.text}</div></div>`;
+  });
+  badMoments.forEach(m=>{
+    bp.innerHTML+=`<div class="moment-card bad"><div class="moment-emoji">${m.emoji}</div><div class="moment-title">${m.title}</div><div class="moment-date">${m.date}</div><div class="moment-text">${m.text}</div></div>`;
+  });
+}
+
+function switchTab(type,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.moments-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+type).classList.add('active');
+}
+function addMoment(){
+  const title=document.getElementById('m-title').value.trim();
+  const type=document.getElementById('m-type').value;
+  const date=document.getElementById('m-date').value;
+  const text=document.getElementById('m-text').value.trim();
+  if(!title||!text){ showToast('Please add a title and description.'); return; }
+  const emojis={happy:['💕','🌸','✨','🥂','🌅','☀️'],bad:['🌧️','🌊','🪴','🌑']};
+  const arr=type==='happy'?happyMoments:badMoments;
+  arr.unshift({emoji:emojis[type][Math.floor(Math.random()*emojis[type].length)],title,date:date||'Just now',text});
+  renderMoments();
+  document.getElementById('m-title').value='';
+  document.getElementById('m-text').value='';
+  showToast('Memory saved! 💕');
+}
+
+// ── DIGITAL NOTES ──
+function sendNote(){
+  const from=document.getElementById('cf-from').value.trim();
+  const sub=document.getElementById('cf-subject').value.trim();
+  const msg=document.getElementById('cf-message').value.trim();
+  if(!from||!msg){ showToast('Please fill in your name and message.'); return; }
+  document.getElementById('modal-title').textContent=`Note from ${from} ♡`;
+  document.getElementById('modal-body').textContent=`"${sub||'A note for you'}" has been saved to your love story.`;
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('cf-from').value='';
+  document.getElementById('cf-subject').value='';
+  document.getElementById('cf-message').value='';
+}
+function closeModal(){ document.getElementById('modal').classList.remove('open'); }
+
+// ── TOAST POPUPS ──
+function showToast(msg){
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ── VIEW INTERSECTION FADES ──
+function initScrollFade() {
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.style.opacity='1'; });
+  },{threshold:0.1});
+  document.querySelectorAll('section').forEach(s=>{
+    s.style.opacity='0'; s.style.transition='opacity 0.7s ease';
+    obs.observe(s);
+  });
+}
+</script>
+</body>
+</html>
